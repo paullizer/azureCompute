@@ -1,56 +1,12 @@
 {
-    "headers": {
+    "WebhookName": "Alert1629390310808",
+    "RequestBody": "{\"schemaId\":\"azureMonitorCommonAlertSchema\",\"data\":{\"essentials\":{\"alertId\":\"/subscriptions/35028faa-696d-495e-9fa7-7c144ea6a6f0/providers/Microsoft.AlertsManagement/alerts/45d9d9b8-9bc7-4659-b9a6-b69298ce1d68\",\"alertRule\":\"Scale Up VM\",\"severity\":\"Sev3\",\"signalType\":\"Metric\",\"monitorCondition\":\"Resolved\",\"monitoringService\":\"Platform\",\"alertTargetIDs\":[\"/subscriptions/35028faa-696d-495e-9fa7-7c144ea6a6f0/resourcegroups/rg-east-hub/providers/microsoft.compute/virtualmachines/scale-example-d2sv3\"],\"configurationItems\":[\"scale-example-d2sv3\"],\"originAlertId\":\"35028faa-696d-495e-9fa7-7c144ea6a6f0_RG-East-Hub_microsoft.insights_metricalerts_Scale Up VM_-811657877\",\"firedDateTime\":\"2021-08-19T18:53:33.5177423Z\",\"resolvedDateTime\":\"2021-08-19T19:03:30.7726894Z\",\"description\":\"\",\"essentialsVersion\":\"1.0\",\"alertContextVersion\":\"1.0\"},\"alertContext\":{\"properties\":null,\"conditionType\":\"MultipleResourceMultipleMetricCriteria\",\"condition\":{\"windowSize\":\"PT5M\",\"allOf\":[{\"metricName\":\"Percentage CPU\",\"metricNamespace\":\"Microsoft.Compute/virtualMachines\",\"operator\":\"GreaterThan\",\"threshold\":\"10\",\"timeAggregation\":\"Average\",\"dimensions\":[],\"metricValue\":8.888,\"webTestName\":null}],\"windowStartTime\":\"2021-08-19T18:55:20.534Z\",\"windowEndTime\":\"2021-08-19T19:00:20.534Z\"}}}}",
+    "RequestHeader": {
         "Connection": "Keep-Alive",
         "Expect": "100-continue",
-        "Host": "prod-13.eastus.logic.azure.com",
+        "Host": "bf4090c5-4d1f-4edd-9b8e-9d1356a20176.webhook.eus2.azure-automation.net",
         "User-Agent": "IcMBroadcaster/1.0",
-        "X-CorrelationContext": "{coorelation_id}",
-        "Content-Length": "1221",
-        "Content-Type": "application/json; charset=utf-8"
-    },
-    "body": {
-        "schemaId": "azureMonitorCommonAlertSchema",
-        "data": {
-            "essentials": {
-                "alertId": "/subscriptions/{subscription_id}/providers/Microsoft.AlertsManagement/alerts/{alert_id}",
-                "alertRule": "{alert_name}",
-                "severity": "Sev3",
-                "signalType": "Metric",
-                "monitorCondition": "Fired",
-                "monitoringService": "Platform",
-                "alertTargetIDs": [
-                    "/subscriptions/{subscription_id}/resourcegroups/{resource_group_name}/providers/microsoft.compute/virtualmachines/{vm_name}"
-                ],
-                "configurationItems": [
-                    "{vm_name}"
-                ],
-                "originAlertId": "{id_info}",
-                "firedDateTime": "2021-08-19T18:11:34.9201964Z",
-                "description": "{description_info",
-                "essentialsVersion": "1.0",
-                "alertContextVersion": "1.0"
-            },
-            "alertContext": {
-                "properties": null,
-                "conditionType": "MultipleResourceMultipleMetricCriteria",
-                "condition": {
-                    "windowSize": "PT5M",
-                    "allOf": [
-                        {
-                            "metricName": "Percentage CPU",
-                            "metricNamespace": "Microsoft.Compute/virtualMachines",
-                            "operator": "GreaterThan",
-                            "threshold": "5",
-                            "timeAggregation": "Average",
-                            "dimensions": [],
-                            "metricValue": 6.9215,
-                            "webTestName": null
-                        }
-                    ],
-                    "windowStartTime": "2021-08-19T18:03:20.099Z",
-                    "windowEndTime": "2021-08-19T18:08:20.099Z"
-                }
-            }
-        }
+        "X-CorrelationContext": "RkkKACgAAAACAAAAEAAT8rvVsSMIQ5w2Gq5zJgEwAQAQAOZH3vSKaLVMuDd18O8TRGQ=",
+        "x-ms-request-id": "c419ea6c-92af-4e6f-9353-8af12b514066"
     }
 }
