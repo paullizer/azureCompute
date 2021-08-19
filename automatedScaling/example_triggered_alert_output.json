@@ -1,0 +1,56 @@
+{
+    "headers": {
+        "Connection": "Keep-Alive",
+        "Expect": "100-continue",
+        "Host": "prod-13.eastus.logic.azure.com",
+        "User-Agent": "IcMBroadcaster/1.0",
+        "X-CorrelationContext": "{coorelation_id}",
+        "Content-Length": "1221",
+        "Content-Type": "application/json; charset=utf-8"
+    },
+    "body": {
+        "schemaId": "azureMonitorCommonAlertSchema",
+        "data": {
+            "essentials": {
+                "alertId": "/subscriptions/{subscription_id}/providers/Microsoft.AlertsManagement/alerts/{alert_id}",
+                "alertRule": "{alert_name}",
+                "severity": "Sev3",
+                "signalType": "Metric",
+                "monitorCondition": "Fired",
+                "monitoringService": "Platform",
+                "alertTargetIDs": [
+                    "/subscriptions/{subscription_id}/resourcegroups/{resource_group_name}/providers/microsoft.compute/virtualmachines/{vm_name}"
+                ],
+                "configurationItems": [
+                    "{vm_name}"
+                ],
+                "originAlertId": "{id_info}",
+                "firedDateTime": "2021-08-19T18:11:34.9201964Z",
+                "description": "{description_info",
+                "essentialsVersion": "1.0",
+                "alertContextVersion": "1.0"
+            },
+            "alertContext": {
+                "properties": null,
+                "conditionType": "MultipleResourceMultipleMetricCriteria",
+                "condition": {
+                    "windowSize": "PT5M",
+                    "allOf": [
+                        {
+                            "metricName": "Percentage CPU",
+                            "metricNamespace": "Microsoft.Compute/virtualMachines",
+                            "operator": "GreaterThan",
+                            "threshold": "5",
+                            "timeAggregation": "Average",
+                            "dimensions": [],
+                            "metricValue": 6.9215,
+                            "webTestName": null
+                        }
+                    ],
+                    "windowStartTime": "2021-08-19T18:03:20.099Z",
+                    "windowEndTime": "2021-08-19T18:08:20.099Z"
+                }
+            }
+        }
+    }
+}
