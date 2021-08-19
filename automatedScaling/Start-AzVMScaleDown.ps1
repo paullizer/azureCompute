@@ -158,8 +158,11 @@ do
 while($RetryFlag)
 
 if ($attemptScale){
+    
     if ($Webhookdata){
-        Write-Output $Webhookdata
+        $WebhookdataObject =  $Webhookdata.RequestBody | ConvertFrom-Json
+        $VmName = $WebhookdataObject.data.essentials.configurationItems
+        $ResourceGroupName = $WebhookdataObject.data.essentials.alertTargetIDs.split("/")[4]
     }
 
     try {
