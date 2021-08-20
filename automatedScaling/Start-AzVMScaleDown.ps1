@@ -53,11 +53,13 @@ N\A
 ***************************************************#>
 
 param (
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$false, HelpMessage="Enter a singular VM.")]
     [string]$VmName,
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$false, HelpMessage="Enter a singular Resource Group.")]
     [string]$ResourceGroupName,
-    [Parameter(Mandatory=$false)]
+    [Parameter(Mandatory=$false, HelpMessage="Enter at least two VM size names in order from small to large, seperated by comma (no spaces).")]
+    [string]$VmSizes,
+    [Parameter(Mandatory=$false, HelpMessage="Webhook JSON data is delivered via another Azure service, not used for scheduled or manual runbooks.")]
     [object]$Webhookdata
 )
 
