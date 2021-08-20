@@ -168,8 +168,8 @@ if ($attemptScale){
     }
 
     if ($VmSizes){
+        $scaleLevel = @()
         foreach ($size in $VmSizes.Split(",")) {
-            $scaleLevel = @()
             $scaleLevel += $size
         }
     }

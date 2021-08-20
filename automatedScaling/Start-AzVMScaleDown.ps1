@@ -167,6 +167,13 @@ if ($attemptScale){
         $ResourceGroupName = $WebhookdataObject.data.essentials.alertTargetIDs.split("/")[4]
     }
 
+    if ($VmSizes){
+        $scaleLevel = @()
+        foreach ($size in $VmSizes.Split(",")) {
+            $scaleLevel += $size
+        }
+    }
+
     try {
         $Vm = Get-AzVM -ResourceGroupName $ResourceGroupName -Name $VmName
     }
