@@ -58,6 +58,8 @@ param (
     [Parameter(Mandatory=$false)]
     [string]$ResourceGroupName,
     [Parameter(Mandatory=$false)]
+    [string]$VmSizes,
+    [Parameter(Mandatory=$false)]
     [object]$Webhookdata
 )
 
@@ -163,6 +165,13 @@ if ($attemptScale){
         $WebhookdataObject =  $Webhookdata.RequestBody | ConvertFrom-Json
         $VmName = $WebhookdataObject.data.essentials.configurationItems
         $ResourceGroupName = $WebhookdataObject.data.essentials.alertTargetIDs.split("/")[4]
+    }
+
+    if ($VmSizes){
+        foreach ($size in $VmSizes.Split(",")) {
+            $scaleLevel = @()
+            $scaleLevel += $size
+        }
     }
 
     try {
