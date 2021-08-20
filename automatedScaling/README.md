@@ -1,5 +1,5 @@
-# Automated VM Scaling
-Azure Alerts combined with two Azure Automation Runbooks using Webhooks provides a capability to scale Virtual Machines based on CPU thresholds over a given window using a custom VM size table .
+# Automated VM Vertical Scaling
+Azure Alerts combined with two Azure Automation Runbooks using Webhooks provides a capability to vertically scale Virtual Machines based on CPU thresholds over a given window using a custom VM size table.
 
 There are methods to do each of these tasks on their own. You could use the built-in Alert runbook to Scale Up or Scale Down a VM; however, the system sizes use marketplace sizing which may exceed cost parameters defined by your project (or your wallet).
 
