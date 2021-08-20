@@ -32,9 +32,9 @@ Azure automation account uses the same permission defined for the Power On/Off c
 
 ### Azure Runbook
 
-This is how actions are performed. When an alert is triggered the alert will initiate an Azure Runbook. The Azure Runbook is an Azure PowerShell script. The Runbook can be executed on its own with the administrator supplying two values: VM Name and Resource Group. When a Runbook is initiated by an Alert, the Alert sends Webhook data in JSON format to the Runbook. The Runbook uses this information to determine which Virtual Machine triggered the alert and uses the $Webhook data to populate the VM Name and Resource Group.
+This is how actions are performed against Azure resources. When an alert is triggered the alert will initiate an Azure Runbook. The Azure Runbook is an Azure PowerShell script. The Runbook can be executed on its own with the administrator supplying two values: VM Name and Resource Group. When a Runbook is initiated by an Alert, the Alert sends Webhook data in JSON format to the Runbook. The Runbook uses this information to determine which Virtual Machine triggered the alert and uses the $Webhook data to populate the VM Name and Resource Group.
 
-##### Webhook Data
+#### Webhook Data
 
 Webhook data comes in JSON format. The following is a sanitized example of the webhook data. You can view a JSON file version here ([azureCompute/example_triggered_alert_output.json at main · paullizer/azureCompute (github.com)](https://github.com/paullizer/azureCompute/blob/main/automatedScaling/example_triggered_alert_output.json)). The webhook data is provided by the alert trigger to the runbook and includes resource_id and name of the Azure resource that triggered the alert. 
 
@@ -45,6 +45,18 @@ The webhook uses the Command Alert Schema in JSON format ([Common alert schema f
 The following figure is a truncated copy of the Runbook showing the $webhook data processing. 
 
 ![example_webhook](https://user-images.githubusercontent.com/34814295/130283145-8f4690d2-ef44-4bbf-9443-3195c38685ad.png)
+
+### Azure Virtual Machine
+
+You need at least one Azure VM but the alert can be setup to monitor all virtual machines within a resource group.
+
+### Azure Alert
+
+This is used to monitor VM CPU levels over time and perform an action like initiated a Runbook.
+
+## Deployment
+
+
 
 ## Execution
 
