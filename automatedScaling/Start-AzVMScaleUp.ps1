@@ -83,7 +83,7 @@ $scaleLevel = @(
 
 function Set-VMSize () {
     <#----------------------
-        Determine if a Azure PowerShell is installed. If not, attempt to install.
+        Determine if a Azure PowerShell is installed. If not, attempt to install
     -----------------------#>
 
     [CmdletBinding()]
