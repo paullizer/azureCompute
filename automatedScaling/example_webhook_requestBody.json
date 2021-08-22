@@ -1,0 +1,46 @@
+{
+    "schemaId": "azureMonitorCommonAlertSchema",
+    "data": {
+        "essentials": {
+            "alertId": "/subscriptions/{subscription_id}/providers/Microsoft.AlertsManagement/alerts/{alert_id}",
+            "alertRule": "{alert_rule_name}",
+            "severity": "Sev3",
+            "signalType": "Metric",
+            "monitorCondition": "Fired",
+            "monitoringService": "Platform",
+            "alertTargetIDs": [
+                "/subscriptions/{subscription_id}/resourcegroups/{resource_group_name}/providers/microsoft.compute/virtualmachines/{vm_name}"
+            ],
+            "configurationItems": [
+                "{vm_name}"
+            ],
+            "originAlertId": "{subscription_id}_{resource_group_name}_microsoft.insights_metricalerts_{alert_rule_name}_-811657877",
+            "firedDateTime": "2021-08-19T19:13:25.9768126Z",
+            "description": "",
+            "essentialsVersion": "1.0",
+            "alertContextVersion": "1.0"
+        },
+        "alertContext": {
+            "properties": null,
+            "conditionType": "MultipleResourceMultipleMetricCriteria",
+            "condition": {
+                "windowSize": "PT5M",
+                "allOf": [
+                    {
+                        "metricName": "Percentage CPU",
+                        "metricNamespace": "Microsoft.Compute/virtualMachines",
+                        "operator": "GreaterThan",
+                        "threshold": "10",
+                        "timeAggregation": "Average",
+                        "dimensions": [],
+                        "metricValue": 13.451,
+                        "webTestName": null
+                    }
+                ],
+                "windowStartTime": "2021-08-19T19:05:20.6Z",
+                "windowEndTime": "2021-08-19T19:10:20.6Z"
+            }
+        }
+    }
+}
+
