@@ -36,13 +36,17 @@ This is how actions are performed against Azure resources. When an alert is trig
 
 #### Webhook Data
 
-Webhook data comes in JSON format. The following is a sanitized example of the webhook data. You can view a JSON file version here ([azureCompute/example_triggered_alert_output.json at main · paullizer/azureCompute (github.com)](https://github.com/paullizer/azureCompute/blob/main/automatedScaling/example_triggered_alert_output.json)). The webhook data is provided by the alert trigger to the runbook and includes resource_id and name of the Azure resource that triggered the alert. 
+Webhook data comes in JSON format. The following is a sanitized example of the webhook data. You can view a JSON file version here ([azureCompute/example_webhook.json at main · paullizer/azureCompute (github.com)](https://github.com/paullizer/azureCompute/blob/main/automatedScaling/example_webhook.json)). The webhook data is provided by the alert trigger to the runbook and includes resource_id and name of the Azure resource that triggered the alert. 
 
 The webhook uses the Command Alert Schema in JSON format ([Common alert schema for Azure Monitor alerts - Azure Monitor | Microsoft Docs](https://docs.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-common-schema)). It is important to make sure to enable using Common Alert Schema when setting up the Alert. This step is explained in the Deployment Section.
 
 ![example_webhook_json_data](https://user-images.githubusercontent.com/34814295/130284120-aa028963-f839-4ff9-81c8-76f512777f17.png)
 
-The following figure is a truncated copy of the Runbook showing the $webhook data processing. 
+The Webhook's RequestBody node contains an additional JSON formatted dataset. This dataset contains the valued variables like Resource IDs and Names that triggered the alert. The following figure is a formatted copy of the RequestBody in the previous figure. You can also view the code version here ([azureCompute/example_webhook_requestBody.json at main · paullizer/azureCompute (github.com)](https://github.com/paullizer/azureCompute/blob/main/automatedScaling/example_webhook_requestBody.json)). The code version can be used to select additional values that may be important if you were to modify the Runbooks or to create your own Runbooks. 
+
+![example_webhook_requestBody_json_data](https://user-images.githubusercontent.com/34814295/130356034-ba135a10-36ad-49d1-8d6d-4ccc4fa1c539.png)
+
+The following figure is a truncated copy of the Runbook showing the $webhook data processing. You can view this code within the context of the Runbook by viewing either the Scale Up or Scale Down Runbooks, you can view the Scale Up VM Runbook here ([azureCompute/Start-AzVMScaleUp.ps1 at main · paullizer/azureCompute (github.com)](https://github.com/paullizer/azureCompute/blob/main/automatedScaling/Start-AzVMScaleUp.ps1)).
 
 ![example_webhook](https://user-images.githubusercontent.com/34814295/130283145-8f4690d2-ef44-4bbf-9443-3195c38685ad.png)
 
