@@ -1,41 +1,38 @@
 <#  
 .SYNOPSIS  
-    Deploy hub and spoke architecture with transitive routing.
+    Vertically scale down an Azure Virtual Machine
 .DESCRIPTION  
-    Deploy hub and spoke architecture with transitive routing using a JSON template to define the hub and spoke configurations.
-    
-    This means Virtual Network Gateways are deployed (which have a cost), VNET peering is performed between hub and spoke(s), VNET to VNET connection is performed between hubs,
-    and route tables are deployed to facility transitive routing.
+    Vertically scale down an Azure Virtual Machine
 
         v1.0 - Update
 .NOTES  
-    File Name       :   Deploy-VirtualNetwork.ps1  
+    File Name       :   Start-AzVMScaleDown.ps1  
     Author          :   Paul Lizer, paullizer@microsoft.com
     Prerequisite    :   PowerShell V5, Azure PowerShell 5.6.0 or greater
-    Version         :   1.0 (2021 07 15)     
+    Version         :   1.0 (2021 08 22)     
 .LINK  
-    https://github.com/paullizer/transitiveRouting
+    https://github.com/paullizer/azureCompute 
 .EXAMPLE  
-    If no parameter is defined then JSON template (https://github.com/paullizer/transitiveRouting/blob/main/multiHub/template-multiHub-SingleSub-nameSchema.json) will be used
-
-        Deploy-VirtualNetwork.ps1
-
-.EXAMPLE  
-    You can use your own configured JSON template. UNC and HTTP/HTTPS paths can be used. You should really not be using HTTP at this point, please do better.
-
-        Deploy-VirtualNetwork.ps1 -template "path:\to\tempalte.json"
+    Manual exection as a PowerShell script
+        Start-AzVMScaleDown.ps1 -VmName {Azure_VM-Name} -ResourceGroupName {Azure_Resource_Group_Name} -VmSizes {Comma,Seperated,Sizes}
+        Start-AzVMScaleDown.ps1 -VmName "VM-Host1" -ResourceGroupName "RG-East" -VmSizes "Standard_D2s_v3,Standard_D3s_v3,Standard_D4s_v3,Standard_D6s_v3"
 
 .EXAMPLE  
-    You can use your own configured JSON template. UNC and HTTP/HTTPS paths can be used. You should really not be using HTTP at this point, please do better.
+    Triggered by Scheduled Runbook. Populate the VmName and ResourceGroupName values when initiating the Runbook.
 
-        Deploy-VirtualNetwork.ps1 -template "https://github.com/paullizer/transitiveRouting/blob/main/multiHub/template-multiHub-SingleSub-nameExplicit.json"
+        Start-AzVMScaleDown.ps1        
+
+.EXAMPLE  
+    Triggered by Azure Alert. The WebhookData is automatically sent
+
+        Start-AzVMScaleDown.ps1
 #>
 
 <#***************************************************
                        Process
 -----------------------------------------------------
     
-https://github.com/paullizer/transitiveRouting#multi-hub-architecture
+https://github.com/paullizer/azureCompute/tree/main/automatedScaling
 
 ***************************************************#>
     
