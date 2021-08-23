@@ -50,6 +50,18 @@ The following figure is a truncated copy of the Runbook showing the $webhook dat
 
 ![example_webhook](https://user-images.githubusercontent.com/34814295/130283145-8f4690d2-ef44-4bbf-9443-3195c38685ad.png)
 
+#### Scale Levels
+
+Scale levels are defined in the Runbook/PowerShell script. Script editors can modify the code to update the default set of scale levels. 
+
+![example_scale_levels](https://user-images.githubusercontent.com/34814295/130280847-d585e3ce-ab0b-4b57-b198-d0c3d5bd40a5.png)
+
+There is another option to provide a set of VM sizes at run-time of the Runbook or script. ![example_vmsize_variable](https://user-images.githubusercontent.com/34814295/130367903-4885eaff-ff85-45a4-ab3a-b7f8f3401334.png)
+
+When setting up the Runbook, the administrator can provide a comma separated list of VM Sizes which will override the default values in the Runbook/script.
+
+![provide_vmsize_parameter](https://user-images.githubusercontent.com/34814295/130368153-5beb6de8-b010-4e36-8cea-81958d084ff6.png)
+
 ### Azure Virtual Machine
 
 You need at least one Azure VM but the alert can be setup to monitor all virtual machines within a resource group.
@@ -60,15 +72,18 @@ This is used to monitor VM CPU levels over time and perform an action like initi
 
 ## Deployment
 
-
+1. Deploy Automation Account with Start/Stop ([Enable Azure Automation Start/Stop VMs during off-hours | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/automation-solution-vm-management-enable))
+   1. This task sets up the Automation Account with the appropriate permissions
+2. Create a new Runbook in your Automation Account ([Manage runbooks in Azure Automation | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/manage-runbooks#:~:text=1 Sign in to the Azure portal. 2,to create the runbook and open the editor.))
+   1. You will create 2 (two) Runbooks: One for Start-AzVMScaleUp and another for Start-AzVMScaleDown
+   2. ![example_automation_account_runbooks](https://user-images.githubusercontent.com/34814295/130367471-79e995c2-a1f3-4cb5-9220-742e6241881c.png)
+   3. (1) Paste the code for each Scale process into their respective Runbooks, (2) Save, and then (3) Publish the Runbook
+   4. ![example_publish_runbook](https://user-images.githubusercontent.com/34814295/130367664-7ea7a671-3fc9-4c36-bd3e-02f79bafcf71.png)
+3. Create CPU Threshold Alert
 
 ## Execution
 
-#### Scale Levels
 
-Scale levels are defined in the Runbook/PowerShell script. The script should be edited to provide the sizing defined by
-
-![example_scale_levels](https://user-images.githubusercontent.com/34814295/130280847-d585e3ce-ab0b-4b57-b198-d0c3d5bd40a5.png)
 
 
 
