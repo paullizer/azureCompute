@@ -56,9 +56,15 @@ Scale levels are defined in the Runbook/PowerShell script. Script editors can mo
 
 ![example_scale_levels](https://user-images.githubusercontent.com/34814295/130280847-d585e3ce-ab0b-4b57-b198-d0c3d5bd40a5.png)
 
+#### VM Size Parameter
+
 There is another option to provide a set of VM sizes at run-time of the Runbook or script. ![example_vmsize_variable](https://user-images.githubusercontent.com/34814295/130367903-4885eaff-ff85-45a4-ab3a-b7f8f3401334.png)
 
 When setting up the Runbook, the administrator can provide a comma separated list of VM Sizes which will override the default values in the Runbook/script.
+
+1. Select Parameter field.
+2. Enter a comma separated list of VM Sizes.
+3. Select OK.
 
 ![provide_vmsize_parameter](https://user-images.githubusercontent.com/34814295/130368153-5beb6de8-b010-4e36-8cea-81958d084ff6.png)
 
@@ -76,10 +82,35 @@ This is used to monitor VM CPU levels over time and perform an action like initi
    1. This task sets up the Automation Account with the appropriate permissions
 2. Create a new Runbook in your Automation Account ([Manage runbooks in Azure Automation | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/manage-runbooks#:~:text=1 Sign in to the Azure portal. 2,to create the runbook and open the editor.))
    1. You will create 2 (two) Runbooks: One for Start-AzVMScaleUp and another for Start-AzVMScaleDown
-   2. ![example_automation_account_runbooks](https://user-images.githubusercontent.com/34814295/130367471-79e995c2-a1f3-4cb5-9220-742e6241881c.png)
-   3. (1) Paste the code for each Scale process into their respective Runbooks, (2) Save, and then (3) Publish the Runbook
-   4. ![example_publish_runbook](https://user-images.githubusercontent.com/34814295/130367664-7ea7a671-3fc9-4c36-bd3e-02f79bafcf71.png)
+      2. ![example_automation_account_runbooks](https://user-images.githubusercontent.com/34814295/130367471-79e995c2-a1f3-4cb5-9220-742e6241881c.png)
+   2. (1) Paste the code for each Scale process into their respective Runbooks, (2) Save, and then (3) Publish the Runbook
+      4. ![example_publish_runbook](https://user-images.githubusercontent.com/34814295/130367664-7ea7a671-3fc9-4c36-bd3e-02f79bafcf71.png)
 3. Create CPU Threshold Alert
+   1. Go to the Alerts management pane; one way is to (1) search for alerts and (2) select from the drop down menu.
+      1. ![example_alert_portal_search](https://user-images.githubusercontent.com/34814295/132868181-2877253b-8f64-4d47-98f6-a198e1be8da1.png)
+   2. You will create two rules, one to scale up and one to scale down the virtual machines. 
+   3. Create a new alert by Select **+ New alert rule** 
+   4. Select the scope, this will be the resource group(s) holding the virtual machines to monitor.
+      1. (1) select **Select resource**, (2) verify the correct subscription is pre-selected, (3) update **Filter by resource type** to *Virtual machines*, (4) type in the name of the Resource Group, (5) select the Resource Group, (6) select **Done**![example_alert_scope-select_resource](https://user-images.githubusercontent.com/34814295/132871054-8ab06220-9326-4026-b9af-f81e013555c4.png)
+   5. Select the condition to evaluate and trigger a VM to scale.
+      1. (1) select **Add condition**, (2) enter *cpu* in the search input, (3) select **Percentage CPU** ![example_alert_condition-add_condition](https://user-images.githubusercontent.com/34814295/132871235-f9f8250a-aa30-46c8-b9e7-f206d372717e.png)
+      2. When creating the scale up alert, you will select *Greater Than* as the **Operator** and a **Threshold value** of *50-90*. The **Threshold value** is the average percentage of CPU usage you want the Virtual Machine to exceed over 15 minutes. This example uses a **Threshold value** of *70*.
+         1. (1) select *Greater than* as the **Operator**, (2) enter *70* as the **Threshold value**, (3) select *15 minutes* as the **Aggregation granularity (Period)**, (4) select *Every 1 minute* as the **Frequency of evaluation**.![example_alert_condition-configure_signal_logic-scale_up](https://user-images.githubusercontent.com/34814295/132872280-a6a6100c-7d44-40c6-87c1-bdc451221d94.png)
+      3. When creating the scale down alert, you will select *Less Than* as the **Operator** and a **Threshold value** of *10-50*. The **Threshold value** is the average percentage of CPU usage you want the Virtual Machine to exceed over 15 minutes. This example uses a **Threshold value** of *15*.
+         1. (1) select *Less than* as the **Operator**, (2) enter *15* as the **Threshold value**, (3) select *15 minutes* as the **Aggregation granularity (Period)**, (4) select *Every 1 minute* as the **Frequency of evaluation**.![example_alert_condition-configure_signal_logic-scale_down](https://user-images.githubusercontent.com/34814295/132873683-099e524e-8a3a-413b-a74d-6ff305d50c3d.png)
+   6. Select the action to be performed when a condition threshold is triggered
+      1. Select **Add action groups**
+      2. Select **+ Create action groups**
+      3. Edit the Basics tab
+         1. Select the Resource group holding your Virtual machines
+         2. Enter a name for the Action group; this example uses the following Action group name based on which Alert is being created
+            1. Scale_Up_VM 
+            2. Scale_Down_VM 
+         3. Enter a display name for the Action group; this example uses the following Display name based on which Alert is being created
+            1. Scale_Up_VM 
+            2. Scale_Down_VM
+      4. Edit the Notifications tab
+         1. 
 
 ## Execution
 
