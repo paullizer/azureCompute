@@ -80,7 +80,7 @@ This is used to monitor VM CPU levels over time and perform an action like initi
 
 1. Deploy Automation Account with Start/Stop ([Enable Azure Automation Start/Stop VMs during off-hours | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/automation-solution-vm-management-enable))
    1. This task sets up the Automation Account with the appropriate permissions
-2. Create a new Runbook in your Automation Account ([Manage runbooks in Azure Automation | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/manage-runbooks#:~:text=1 Sign in to the Azure portal. 2,to create the runbook and open the editor.))
+2. Create a new Runbook in your Automation Account ([Manage runbooks in Azure Automation | Microsoft Docs](https://docs.microsoft.com/en-us/azure/automation/manage-runbooks))
    1. You will create 2 (two) Runbooks: One for Start-AzVMScaleUp and another for Start-AzVMScaleDown
       2. ![example_automation_account_runbooks](https://user-images.githubusercontent.com/34814295/130367471-79e995c2-a1f3-4cb5-9220-742e6241881c.png)
    2. (1) Paste the code for each Scale process into their respective Runbooks, (2) Save, and then (3) Publish the Runbook
