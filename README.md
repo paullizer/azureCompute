@@ -9,21 +9,9 @@ Azure Alerts combined with two Azure Automation Runbooks using Webhooks provides
 
 There are methods to do each of these tasks on their own. You could use the built-in Alert runbook to Scale Up or Scale Down a VM; however, the system sizes use marketplace sizing which may exceed cost parameters defined by your project (or your wallet).
 
-{MORE INFO COMING}
-
 #### Goal
 
 Scale one or more monitored Virtual Machines up or down using a custom list of VM sizes.
-
-#### Workflow
-
-##### Scale Up
-
-![scale_up_process](https://user-images.githubusercontent.com/34814295/130251189-070dbe2e-de94-48d2-bc70-68ea6d2c0264.png)
-
-##### Scale Down
-
-![scale_down_process](https://user-images.githubusercontent.com/34814295/130251240-2c15cabe-514d-4356-abd0-042bbf657fbd.png)
 
 #### Requirements
 
