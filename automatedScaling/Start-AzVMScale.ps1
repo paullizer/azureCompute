@@ -227,7 +227,6 @@ if ($attemptScale){
                 #   via the Portal or PowerShell.
                 # Set VM to middle Level in scale Level array (close to middle anyway)
                 try {
-                    Write-Output ("Setting VM named " + $VmName + " to size - " + $scaleLevel[[int]($scaleLevel.GetUpperBound(0)/2)] + ".")
                     Set-VMSize $ResourceGroupName $VmName $scaleLevel[[int]($scaleLevel.GetUpperBound(0)/2)]
                 }
                 catch {
@@ -285,7 +284,6 @@ if ($attemptScale){
             #   via the Portal or PowerShell.
             # Set VM to middle Level in scale Level array (close to middle anyway)
             try {
-                Write-Output ("Setting VM named " + $VmName + " to Default, Level " + ([int]($scaleLevel.GetUpperBound(0)/2)+1) + " - " + $scaleLevel[[int]($scaleLevel.GetUpperBound(0)/2)] + ".")
                 Set-VMSize $ResourceGroupName $VmName $scaleLevel[[int]($scaleLevel.GetUpperBound(0)/2)]
             }
             catch {
