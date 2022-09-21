@@ -71,8 +71,7 @@ $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
 $runRemoveCommandScriptString = "rm $filePath"
 
-try
-{
+try {
     Write-Output "Logging in to Azure using automation account's managed identity"
     Connect-AzAccount -Identity | Out-Null
 }
@@ -81,8 +80,7 @@ catch {
     throw $_.Exception
 }
 
-try
-{
+try {
     Write-Output "Setting subscription context to $subscriptionName"
 	Set-AzContext -Subscription $subscriptionName | Out-Null
 }
@@ -91,8 +89,7 @@ catch {
     throw $_.Exception
 }
 
-try
-{   
+try {   
     Write-Output "Checking if file $filePath exists on $vmName"
     $vmResourceGroupNames = "RG-IDENTITY-EAST-PROD"
     $vmNames = "SysLogForwarder"
@@ -108,8 +105,7 @@ if ($output[2] -eq "exists"){
     Write-Output "File $filePath exists, backing Up VM."
     $snapshotconfig = New-AzSnapshotConfig -CreateOption copy -Location $location -SourceUri  $lunResourceId
 
-    try
-    {
+    try {
         $snapShotStatus = New-AzSnapshot -ResourceGroupName $vmResourceGroupName -SnapshotName $snapShotName -Snapshot $snapshotconfig
     }
     catch {
@@ -129,7 +125,7 @@ if ($output[2] -eq "exists"){
             Write-Output $_.Exception
             throw $_.Exception
         }  
-        
+
     } else {
         Write-Output "Snapshot failed."
         Write-Output $snapShotStatus 
