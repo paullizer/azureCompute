@@ -1,8 +1,8 @@
 <#  
 .SYNOPSIS  
-    A runbook using Managed Identity to check if "backup.txt" file exists and if so take snapshot of one or more disks of the VM.
+    A runbook using Managed Identity to check if a file exists and if so take snapshot of a Disk.
 .DESCRIPTION  
-    A runbook using Managed Identity to check if "backup.txt" file exists and if so take snapshot of one or more disks of the VM.
+    A runbook using Managed Identity to check if a file exists and if so take snapshot of a Disk.
 
         v1.0 - Update
 .NOTES  
