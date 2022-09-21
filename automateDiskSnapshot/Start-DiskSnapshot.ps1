@@ -48,26 +48,20 @@ N\A
 -----------------------------------------------------
 ***************************************************#>
 
-param (
-    [Parameter(Mandatory=$true, HelpMessage="Enter Region/Location of VM.")]
-    [string]$Location,
-    [Parameter(Mandatory=$true, HelpMessage="Enter a singular VM name.")]
-    [string]$VmName,
-    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Resource Group.")]
-    [string]$VmResourceGroupName,
-    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Subscription name of VM.")]
-    [string]$VmSubscriptionName,
-    [Parameter(Mandatory=$true, HelpMessage="Enter a singular LUN Resource ID).")]
-    [string]$LunResourceId,
-    [Parameter(Mandatory=$true, HelpMessage="Path of the file whose existance triggers a snapshot of the disk/LUN.")]
-    [object]$FilePath
-)
+$location = "eastus"
 
+$subscriptionName = "SUBSCRIPTION_NAME"
+
+$vmResourceGroupName = "RESOURCE_GROUP_NAME"
+$vmName = "VM_NAME"
+$lunResourceId = "RESOURCE_ID"
 $lunName = $lunResourceId.split("/")[$lunResourceId.split("/").count-1]
 $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
+$filePath = "/run/backup.txt"
+
 $runCommandName = "SnapShotDisk"
-$runCommandScriptString = "test -e $FilePath && echo exists || echo not"
+$runCommandScriptString = "test -e $filePath && echo exists || echo not"
 
 try
 {
@@ -81,8 +75,8 @@ catch {
 
 try
 {
-    Write-Output "Setting subscription context to $VmSubscriptionName"
-	Set-AzContext -Subscription $VmSubscriptionName | Out-Null
+    Write-Output "Setting subscription context to $subscriptionName"
+	Set-AzContext -Subscription $subscriptionName | Out-Null
 }
 catch {
     Write-Output $_.Exception
@@ -91,7 +85,7 @@ catch {
 
 try
 {   
-    Write-Output "Checking if file $FileName exists on $vmName"
+    Write-Output "Checking if file $filePath exists on $vmName"
 	$test = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupName -Name $vmName -CommandId $runCommandName -ScriptString  $runCommandScriptString
     $output = $test.Value.Message -split '\r?\n'
 }
@@ -101,7 +95,7 @@ catch {
 }
 
 if ($output[2] -eq "exists"){
-    Write-Output "File $FileName exists, backing Up VM."
+    Write-Output "File $filePath exists, backing Up VM."
     $snapshotconfig = New-AzSnapshotConfig -CreateOption copy -Location $location -SourceUri  $lunResourceId
     try
     {
@@ -110,7 +104,8 @@ if ($output[2] -eq "exists"){
             Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
         } else {
             Write-Output "Snapshot failed."
-            throw "Snapshot failed. This may be a permission issue. Validate Automation Account managed identity is assigned contributor role on disk(s) and the source resource group."
+            Write-Output $snapShotStatus 
+            throw "Snapshot failed. This may be a permission issue. Validate Automation Account managed identity is assigned contributor role on disk and the source resource group."
         }
 
     }
@@ -119,5 +114,5 @@ if ($output[2] -eq "exists"){
         throw $_.Exception
     }
 } else {
-    Write-Output "File $FileName not found, VM disk(s) not ready for snapshot."
+    Write-Output "File $filePath not found, VM disk not ready for snapshot."
 }
