@@ -134,5 +134,5 @@ if ($output[2] -eq "exists"){
 
 } else {
     Write-Output "File $filePath not found, VM disk not ready for snapshot."
-    throw "File $filePath not found, VM disk not ready for snapshot."
+    throw "File $filePath not found, VM disk not ready for snapshot. Snapshot did not occur."
 }
