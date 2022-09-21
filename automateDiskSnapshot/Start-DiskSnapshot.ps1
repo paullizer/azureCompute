@@ -48,19 +48,26 @@ N\A
 -----------------------------------------------------
 ***************************************************#>
 
-$location = "eastus"
+param (
+    [Parameter(Mandatory=$true, HelpMessage="Enter Region/Location of VM.")]
+    [string]$location,
+    [Parameter(Mandatory=$true, HelpMessage="Enter a singular VM name.")]
+    [string]$vmName,
+    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Resource Group.")]
+    [string]$vmResourceGroupName,
+    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Subscription name of VM.")]
+    [string]$subscriptionName,
+    [Parameter(Mandatory=$true, HelpMessage="Enter a singular LUN Resource ID).")]
+    [string]$lunResourceId,
+    [Parameter(Mandatory=$true, HelpMessage="Path of the file whose existance triggers a snapshot of the disk/LUN.")]
+    [string]$filePath
+)
 
-$subscriptionName = "SUBSCRIPTION_NAME"
 
-$vmResourceGroupName = "RESOURCE_GROUP_NAME"
-$vmName = "VM_NAME"
-$lunResourceId = "RESOURCE_ID"
 $lunName = $lunResourceId.split("/")[$lunResourceId.split("/").count-1]
 $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
-$filePath = "/run/backup.txt"
-
-$runCommandName = "SnapShotDisk"
+$runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
 
 try
@@ -86,7 +93,9 @@ catch {
 try
 {   
     Write-Output "Checking if file $filePath exists on $vmName"
-	$test = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupName -Name $vmName -CommandId $runCommandName -ScriptString  $runCommandScriptString
+    $vmResourceGroupNames = "RG-IDENTITY-EAST-PROD"
+    $vmNames = "SysLogForwarder"
+	$test = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runCommandScriptString
     $output = $test.Value.Message -split '\r?\n'
 }
 catch {
