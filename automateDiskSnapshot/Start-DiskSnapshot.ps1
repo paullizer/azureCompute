@@ -107,6 +107,7 @@ catch {
 if ($output[2] -eq "exists"){
     Write-Output "File $filePath exists, backing Up VM."
     $snapshotconfig = New-AzSnapshotConfig -CreateOption copy -Location $location -SourceUri  $lunResourceId
+
     try
     {
         $snapShotStatus = New-AzSnapshot -ResourceGroupName $vmResourceGroupName -SnapshotName $snapShotName -Snapshot $snapshotconfig
@@ -119,6 +120,7 @@ if ($output[2] -eq "exists"){
     if ($snapShotStatus.ProvisioningState -eq "Succeeded"){
         Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
         Write-Output "Deleting $filePath."
+
         try {
             $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
             Write-Output "Successfully deleted."
@@ -126,15 +128,13 @@ if ($output[2] -eq "exists"){
         catch {
             Write-Output $_.Exception
             throw $_.Exception
-        }
+        }  
         
     } else {
         Write-Output "Snapshot failed."
         Write-Output $snapShotStatus 
         throw "Snapshot failed. This may be a permission issue. Validate Automation Account managed identity is assigned contributor role on disk and the source resource group."
     }
-
-
 
 } else {
     Write-Output "File $filePath not found, VM disk not ready for snapshot."
