@@ -59,15 +59,15 @@ param (
     [string]$VmSubscriptionName,
     [Parameter(Mandatory=$true, HelpMessage="Enter a singular LUN Resource ID).")]
     [string]$LunResourceId,
-    [Parameter(Mandatory=$true, HelpMessage="Name of the file whose existance triggers a snapshot of the disk/LUN.")]
-    [object]$FileName
+    [Parameter(Mandatory=$true, HelpMessage="Path of the file whose existance triggers a snapshot of the disk/LUN.")]
+    [object]$FilePath
 )
 
 $lunName = $lunResourceId.split("/")[$lunResourceId.split("/").count-1]
 $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
 $runCommandName = "SnapShotDisk"
-$runCommandScriptString = "test -e /run/$FileName && echo exists || echo not"
+$runCommandScriptString = "test -e $FilePath && echo exists || echo not"
 
 try
 {
