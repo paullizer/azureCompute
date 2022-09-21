@@ -27,11 +27,11 @@ https://github.com/paullizer/azureCompute/tree/main/automatedDiskSnapshot
 
 Requirements
     Automation Account
-    Automation Account Management Identity
+    Automation Account Managed Identity
     ResourceId of Disk that will have a snapshot taken
-    Automation Account Management Identity assigned Contributor Role of the VM
-    Automation Account Management Identity assigned Contributor Role of the Resource Group of the VM
-    Automation Account Management Identity assigned Contributor Role of the Disk
+    Automation Account Managed Identity assigned Contributor Role of the VM
+    Automation Account Managed Identity assigned Contributor Role of the Resource Group of the VM
+    Automation Account Managed Identity assigned Contributor Role of the Disk
 
 ***************************************************#>
     
@@ -69,6 +69,7 @@ $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
 $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
+$runRemoveCommandScriptString = "rm $filePath"
 
 try
 {
@@ -109,19 +110,32 @@ if ($output[2] -eq "exists"){
     try
     {
         $snapShotStatus = New-AzSnapshot -ResourceGroupName $vmResourceGroupName -SnapshotName $snapShotName -Snapshot $snapshotconfig
-        if ($snapShotStatus.ProvisioningState -eq "Succeeded"){
-            Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
-        } else {
-            Write-Output "Snapshot failed."
-            Write-Output $snapShotStatus 
-            throw "Snapshot failed. This may be a permission issue. Validate Automation Account managed identity is assigned contributor role on disk and the source resource group."
-        }
-
     }
     catch {
         Write-Output $_.Exception
         throw $_.Exception
     }
+
+    if ($snapShotStatus.ProvisioningState -eq "Succeeded"){
+        Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
+        Write-Output "Deleting $filePath."
+        try {
+            $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
+            Write-Output "Successfully deleted."
+        }
+        catch {
+            Write-Output $_.Exception
+            throw $_.Exception
+        }
+        
+    } else {
+        Write-Output "Snapshot failed."
+        Write-Output $snapShotStatus 
+        throw "Snapshot failed. This may be a permission issue. Validate Automation Account managed identity is assigned contributor role on disk and the source resource group."
+    }
+
+
+
 } else {
     Write-Output "File $filePath not found, VM disk not ready for snapshot."
 }
