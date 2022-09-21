@@ -102,7 +102,7 @@ catch {
 }
 
 if ($output[2] -eq "exists"){
-    Write-Output "File $filePath exists, backing Up VM."
+    Write-Output "File $filePath exists, taking snapshot of disk/LUN."
     $snapshotconfig = New-AzSnapshotConfig -CreateOption copy -Location $location -SourceUri  $lunResourceId
 
     try {
