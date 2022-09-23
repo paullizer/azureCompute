@@ -121,6 +121,7 @@ if ($output[2] -eq "exists"){
             Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
             Write-Output "Deleting $filePath."
             $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
+            Write-Output $removeFile
             Write-Output "Successfully deleted."
         }
         catch {
@@ -132,6 +133,7 @@ if ($output[2] -eq "exists"){
             try {
                 Write-Output "Running script $runScriptCommandScriptString."
                 $executeScript = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runScriptCommandScriptString
+                Write-Output $executeScript
                 Write-Output "Script succeessfully executed."
             }
             catch {
