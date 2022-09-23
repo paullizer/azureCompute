@@ -130,7 +130,7 @@ if ($output[2] -eq "exists"){
 
         if ($scriptPath){
             try {
-                Write-Output "Running script."
+                Write-Output "Running script $runScriptCommandScriptString."
                 $executeScript = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runScriptCommandScriptString
                 Write-Output "Script succeessfully executed."
             }
