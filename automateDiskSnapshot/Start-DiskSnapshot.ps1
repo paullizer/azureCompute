@@ -70,7 +70,7 @@ $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
 $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
-$runRemoveCommandScriptString = "rm -i $filePath"
+$runRemoveCommandScriptString = "rm -f $filePath"
 $runScriptCommandScriptString = "sh $scriptPath"
 
 try {
@@ -93,9 +93,8 @@ catch {
 
 try {   
     Write-Output "Checking if file $filePath exists on $vmName"
-    $vmResourceGroupNames = "RG-IDENTITY-EAST-PROD"
-    $vmNames = "SysLogForwarder"
-	$test = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runCommandScriptString
+	$test = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupName -Name $vmName -CommandId $runCommandName -ScriptString  $runCommandScriptString
+    Write-Output $test
     $output = $test.Value.Message -split '\r?\n'
 }
 catch {
@@ -120,7 +119,7 @@ if ($output[2] -eq "exists"){
         try {
             Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
             Write-Output "Deleting $filePath."
-            $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
+            $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupName -Name $vmName -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
             Write-Output $removeFile
             Write-Output "Successfully deleted."
         }
@@ -132,7 +131,7 @@ if ($output[2] -eq "exists"){
         if ($scriptPath){
             try {
                 Write-Output "Running script $runScriptCommandScriptString."
-                $executeScript = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runScriptCommandScriptString
+                $executeScript = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupName -Name $vmName -CommandId $runCommandName -ScriptString  $runScriptCommandScriptString
                 Write-Output $executeScript
                 Write-Output "Script succeessfully executed."
             }
