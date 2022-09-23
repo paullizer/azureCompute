@@ -60,9 +60,10 @@ param (
     [Parameter(Mandatory=$true, HelpMessage="Enter a singular LUN Resource ID).")]
     [string]$lunResourceId,
     [Parameter(Mandatory=$true, HelpMessage="Path of the file whose existance triggers a snapshot of the disk/LUN.")]
-    [string]$filePath
+    [string]$filePath,
+    [Parameter(Mandatory=$false, HelpMessage="Path of the script to run following successfull snapshot.")]
+    [string]$scriptPath
 )
-
 
 $lunName = $lunResourceId.split("/")[$lunResourceId.split("/").count-1]
 $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
@@ -70,6 +71,7 @@ $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
 $runRemoveCommandScriptString = "rm $filePath"
+$runScriptCommandScriptString = "sh $scriptPath"
 
 try {
     Write-Output "Logging in to Azure using automation account's managed identity"
@@ -114,17 +116,32 @@ if ($output[2] -eq "exists"){
     }
 
     if ($snapShotStatus.ProvisioningState -eq "Succeeded"){
-        Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
-        Write-Output "Deleting $filePath."
-
+        
         try {
+            Write-Output "Snapshot Successfully Completed. Search Snapshots in Azure Portal to view."
+            Write-Output "Deleting $filePath."
             $removeFile = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runRemoveCommandScriptString
             Write-Output "Successfully deleted."
         }
         catch {
             Write-Output $_.Exception
             throw $_.Exception
-        }  
+        }
+
+        if ($scriptPath){
+            try {
+                Write-Output "Running script."
+                $executeScript = Invoke-AzVMRunCommand -ResourceGroupName $vmResourceGroupNames -Name $vmNames -CommandId $runCommandName -ScriptString  $runScriptCommandScriptString
+                Write-Output "Script succeessfully executed."
+            }
+            catch {
+                Write-Output $_.Exception
+                throw $_.Exception
+            }
+        }
+
+        Write-Output "All tasks successfully completed."
+        Write-Output "Disk SnapShot complete."
 
     } else {
         Write-Output "Snapshot failed."
