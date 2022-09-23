@@ -70,7 +70,7 @@ $snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
 
 $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
-$runRemoveCommandScriptString = "rm $filePath"
+$runRemoveCommandScriptString = "rm -i $filePath"
 $runScriptCommandScriptString = "sh $scriptPath"
 
 try {
