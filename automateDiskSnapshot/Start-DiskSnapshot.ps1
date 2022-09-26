@@ -65,8 +65,7 @@ param (
     [string]$scriptPath
 )
 
-$lunName = $lunResourceId.split("/")[$lunResourceId.split("/").count-1]
-$snapShotName = $VmName + $lunName + (Get-Date -UFormat "%m%d%Y%s")
+$snapShotName = $VmName + (Get-Date -UFormat "%m%d%Y%s")
 
 $runCommandName = "RunShellScript"
 $runCommandScriptString = "test -e $filePath && echo exists || echo not"
