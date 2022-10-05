@@ -47,8 +47,8 @@ N\A
 
 param (
     [Parameter(Mandatory=$true, HelpMessage="Enter a singular Resource Group.")]
-    [string]$vmResourceGroupName,
-    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Subscription name of VM.")]
+    [string]$snapShotResourceGroupName,
+    [Parameter(Mandatory=$true, HelpMessage="Enter a singular Subscription name of Snapshot.")]
     [string]$subscriptionName,
     [Parameter(Mandatory=$true, HelpMessage="Enter number of days in which a disk snapshot expires. e.g. 3 = older than 3 days and disk snapshot is removed.")]
     [int]$snapShotAge
@@ -75,8 +75,8 @@ catch {
 
 
 try {   
-    Write-Output "Checking if file $filePath exists on $vmName"
-	$listOfSnapshots = Get-AzSnapshot -ResourceGroupName $vmResourceGroupName
+    Write-Output "Getting list of snapshots."
+	$listOfSnapshots = Get-AzSnapshot -ResourceGroupName $snapShotResourceGroupName
     Write-Output $test
 }
 catch {
